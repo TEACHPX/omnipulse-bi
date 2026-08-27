@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="cyan">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniPulse BI | Next-Gen Data Analytics & Control Center</title>
+  <meta name="description" content="State-of-the-art interactive Business Intelligence and Data Analytics Command Center with real-time streaming metrics, predictive modeling, and SQL query lab.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js for High Performance Graphics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar" id="mainSidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">OmniPulse</span>
+          <span class="brand-tag">BI COMMAND v3.4</span>
+        </div>
+      </div>
+
+      <nav class="nav-menu">
+        <div class="nav-section-title">ANALYTICS HUBS</div>
+        <button class="nav-item active" data-tab="overview">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Executive Overview</span>
+        </button>
+        
+        <button class="nav-item" data-tab="predictive">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+          <span>Predictive AI Lab</span>
+          <span class="badge badge-accent">AI</span>
+        </button>
+
+        <button class="nav-item" data-tab="geospatial">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span>Geospatial Traffic</span>
+        </button>
+
+        <button class="nav-item" data-tab="sql-lab">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+          <span>SQL Query Studio</span>
+        </button>
+
+        <button class="nav-item" data-tab="alerts">
+          <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span>Alerts & Telemetry</span>
+          <span class="badge badge-warning" id="alertCountBadge">3</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-system-card">
+        <div class="system-status-header">
+          <div class="status-indicator">
+            <span class="pulse-dot"></span>
+            <span class="status-label">Cluster Active</span>
+          </div>
+          <span class="health-pct">99.98%</span>
+        </div>
+        <div class="mini-progress-bar">
+          <div class="progress-fill" style="width: 99.98%;"></div>
+        </div>
+        <div class="system-metrics-micro">
+          <span>Latency: <strong>14ms</strong></span>
+          <span>Node count: <strong>64</strong></span>
+        </div>
+      </div>
+
+      <div class="user-profile">
+        <div class="avatar">DA</div>
+        <div class="user-info">
+          <span class="user-name">Chief Data Architect</span>
+          <span class="user-role">Enterprise Admin</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <!-- Top Navigation Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="icon-btn mobile-toggle" id="sidebarToggleBtn" aria-label="Toggle Sidebar">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" id="globalSearchInput" placeholder="Search datasets, queries, metrics, nodes... (Press ⌘K)">
+            <span class="keyboard-shortcut">⌘K</span>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <!-- Time Range Selector -->
+          <div class="time-range-group" id="timeRangeGroup">
+            <button class="time-btn" data-range="1h">1H</button>
+            <button class="time-btn active" data-range="24h">24H</button>
+            <button class="time-btn" data-range="7d">7D</button>
+            <button class="time-btn" data-range="30d">30D</button>
+            <button class="time-btn" data-range="ytd">YTD</button>
+          </div>
+
+          <!-- Live Stream Toggle -->
+          <button class="live-toggle-btn active" id="liveStreamToggle" title="Toggle Realtime Stream">
+            <span class="live-pulse"></span>
+            <span id="liveStatusText">LIVE (2s)</span>
+          </button>
+
+          <!-- Theme Accent Switcher -->
+          <div class="theme-dropdown-wrapper">
+            <button class="icon-btn" id="themePickerBtn" title="Change Theme Accent">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a7 7 0 1 0 10 10"/></svg>
+            </button>
+            <div class="theme-menu" id="themeMenu">
+              <div class="theme-menu-title">Accent Palette</div>
+              <button class="theme-option active" data-set-theme="cyan"><span class="theme-dot cyan"></span> Cyber Cyan</button>
+              <button class="theme-option" data-set-theme="violet"><span class="theme-dot violet"></span> Electric Violet</button>
+              <button class="theme-option" data-set-theme="emerald"><span class="theme-dot emerald"></span> Matrix Emerald</button>
+              <button class="theme-option" data-set-theme="amber"><span class="theme-dot amber"></span> Solar Amber</button>
+            </div>
+          </div>
+
+          <!-- Export Report -->
+          <button class="primary-btn" id="exportReportBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span>Export BI Report</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- TAB CONTENT PANELS -->
+
+      <!-- TAB 1: EXECUTIVE OVERVIEW -->
+      <section class="tab-panel active" id="panel-overview">
+        <!-- KPI Metrics Grid -->
+        <div class="kpi-grid">
+          <div class="kpi-card glowing-border">
+            <div class="kpi-top">
+              <span class="kpi-title">Gross Revenue (ARR)</span>
+              <span class="kpi-icon-wrap cyan">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiRevenue">$4,892,150</span>
+              <span class="trend-badge positive">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+                +14.2%
+              </span>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">vs previous period ($4.28M)</span>
+              <canvas class="sparkline" id="sparkRevenue" height="30"></canvas>
+            </div>
+          </div>
+
+          <div class="kpi-card glowing-border">
+            <div class="kpi-top">
+              <span class="kpi-title">Active Platform Users</span>
+              <span class="kpi-icon-wrap violet">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              </span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiUsers">148,920</span>
+              <span class="trend-badge positive">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+                +8.7%
+              </span>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">Peak DAU: 184.2K</span>
+              <canvas class="sparkline" id="sparkUsers" height="30"></canvas>
+            </div>
+          </div>
+
+          <div class="kpi-card glowing-border">
+            <div class="kpi-top">
+              <span class="kpi-title">Conversion Rate</span>
+              <span class="kpi-icon-wrap emerald">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+              </span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiConversion">3.84%</span>
+              <span class="trend-badge positive">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"/></svg>
+                +0.42%
+              </span>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">Industry Avg: 2.90%</span>
+              <canvas class="sparkline" id="sparkConversion" height="30"></canvas>
+            </div>
+          </div>
+
+          <div class="kpi-card glowing-border">
+            <div class="kpi-top">
+              <span class="kpi-title">Query Processing Throughput</span>
+              <span class="kpi-icon-wrap amber">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </span>
+            </div>
+            <div class="kpi-value-row">
+              <span class="kpi-value" id="kpiRps">42.8K req/s</span>
+              <span class="trend-badge neutral">
+                <span>⚡ Realtime</span>
+              </span>
+            </div>
+            <div class="kpi-footer">
+              <span class="kpi-subtext">Avg Execution: 12.4ms</span>
+              <canvas class="sparkline" id="sparkRps" height="30"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Charts Section -->
+        <div class="charts-row">
+          <!-- Primary Revenue & Volume Chart -->
+          <div class="panel-card chart-card flex-2">
+            <div class="card-header">
+              <div class="card-header-left">
+                <h3 class="card-title">Revenue Stream & Analytics Velocity</h3>
+                <span class="card-subtitle">Real-time breakdown of financial throughput vs query loads</span>
+              </div>
+              <div class="card-header-actions">
+                <div class="toggle-switch-group">
+                  <button class="toggle-pill active" data-metric="revenue">Revenue ($)</button>
+                  <button class="toggle-pill" data-metric="volume">Volume (Events)</button>
+                </div>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="mainVelocityChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Traffic Distribution Doughnut -->
+          <div class="panel-card chart-card flex-1">
+            <div class="card-header">
+              <div class="card-header-left">
+                <h3 class="card-title">Tier Traffic Split</h3>
+                <span class="card-subtitle">Enterprise vs Pro vs Community</span>
+              </div>
+            </div>
+            <div class="chart-container doughnut-wrap">
+              <canvas id="tierSplitChart"></canvas>
+              <div class="chart-center-overlay">
+                <span class="center-value">100%</span>
+                <span class="center-label">Coverage</span>
+              </div>
+            </div>
+            <div class="custom-legend" id="tierLegend">
+              <!-- Dynamically Populated -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Secondary Grid: Live Transaction Ticker & Performance Gauges -->
+        <div class="dashboard-bottom-grid">
+          <!-- Live Stream Event Ticker -->
+          <div class="panel-card ticker-card">
+            <div class="card-header">
+              <div class="card-header-left">
+                <h3 class="card-title">Live Ingestion Event Ticker</h3>
+                <span class="card-subtitle">Streaming data payload pipeline events</span>
+              </div>
+              <div class="card-header-actions">
+                <span class="badge badge-online">STREAMING ACTIVE</span>
+              </div>
+            </div>
+            <div class="ticker-stream-list" id="tickerStreamList">
+              <!-- Dynamic Events appended here -->
+            </div>
+          </div>
+
+          <!-- Infrastructure Health Matrix -->
+          <div class="panel-card health-matrix-card">
+            <div class="card-header">
+              <div class="card-header-left">
+                <h3 class="card-title">Cluster Hardware Utilization</h3>
+                <span class="card-subtitle">Distributed BigData Engine performance</span>
+              </div>
+            </div>
+            <div class="gauge-grid">
+              <div class="gauge-item">
+                <div class="gauge-title">CPU Load (64 Cores)</div>
+                <div class="gauge-value-wrap">
+                  <span class="gauge-val" id="cpuVal">48%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill cyan" id="cpuBar" style="width: 48%;"></div>
+                </div>
+              </div>
+
+              <div class="gauge-item">
+                <div class="gauge-title">RAM Pool (512 GB)</div>
+                <div class="gauge-value-wrap">
+                  <span class="gauge-val" id="ramVal">62%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill violet" id="ramBar" style="width: 62%;"></div>
+                </div>
+              </div>
+
+              <div class="gauge-item">
+                <div class="gauge-title">NVMe I/O Throughput</div>
+                <div class="gauge-value-wrap">
+                  <span class="gauge-val" id="ioVal">3.2 GB/s</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill emerald" id="ioBar" style="width: 75%;"></div>
+                </div>
+              </div>
+
+              <div class="gauge-item">
+                <div class="gauge-title">Cache Hit Ratio</div>
+                <div class="gauge-value-wrap">
+                  <span class="gauge-val" id="cacheVal">96.4%</span>
+                </div>
+                <div class="progress-bar-track">
+                  <div class="progress-bar-fill amber" id="cacheBar" style="width: 96%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: PREDICTIVE AI LAB -->
+      <section class="tab-panel" id="panel-predictive">
+        <div class="panel-card predictive-header-card">
+          <div class="predictive-intro">
+            <div class="ai-chip">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <span>Monte Carlo & Time-Series AI Engine</span>
+            </div>
+            <h2>Predictive Growth & Scenario Simulator</h2>
+            <p>Adjust market conditions, R&D allocation, and user churn assumptions to forecast revenue trajectory over the next 12 months with 95% confidence intervals.</p>
+          </div>
+
+          <div class="controls-deck">
+            <div class="slider-control">
+              <div class="slider-label-row">
+                <span>R&D Investment Boost</span>
+                <span class="slider-val" id="sliderRdVal">+25%</span>
+              </div>
+              <input type="range" id="sliderRd" min="0" max="100" value="25" class="custom-range">
+            </div>
+
+            <div class="slider-control">
+              <div class="slider-label-row">
+                <span>Customer Churn Rate</span>
+                <span class="slider-val" id="sliderChurnVal">1.2%</span>
+              </div>
+              <input type="range" id="sliderChurn" min="0.1" max="5.0" step="0.1" value="1.2" class="custom-range">
+            </div>
+
+            <div class="slider-control">
+              <div class="slider-label-row">
+                <span>Global Expansion Coefficient</span>
+                <span class="slider-val" id="sliderExpansionVal">1.8x</span>
+              </div>
+              <input type="range" id="sliderExpansion" min="1.0" max="3.0" step="0.1" value="1.8" class="custom-range">
+            </div>
+          </div>
+        </div>
+
+        <div class="charts-row">
+          <div class="panel-card chart-card flex-2">
+            <div class="card-header">
+              <div class="card-header-left">
+                <h3 class="card-title">12-Month Projected Growth & Confidence Bounds</h3>
+                <span class="card-subtitle">Comparison: Historical Actuals vs AI Monte Carlo Prediction</span>
+              </div>
+            </div>
+            <div class="chart-container">
+              <canvas id="predictiveChart"></canvas>
+            </div>
+          </div>
+
+          <div class="panel-card ai-insights-card flex-1">
+            <div class="card-header">
+              <h3 class="card-title">AI Smart Recommendations</h3>
+            </div>
+            <div class="insights-list">
+              <div class="insight-item glowing-border">
+                <div class="insight-icon positive">💡</div>
+                <div class="insight-content">
+                  <h4>Upsell Opportunity in APAC</h4>
+                  <p>Model predicts 34% increase in conversion if EU infrastructure region is extended to Singapore datacenter.</p>
+                  <button class="text-link-btn">Simulate Deployment &rarr;</button>
+                </div>
+              </div>
+
+              <div class="insight-item glowing-border">
+                <div class="insight-icon warning">⚡</div>
+                <div class="insight-content">
+                  <h4>Query Optimization Alert</h4>
+                  <p>Indexes on `billing_logs_v2` are degrading scan efficiency by 18%. Re-indexing recommended.</p>
+                  <button class="text-link-btn" id="runAutoTuneBtn">Auto-Tune Query Index &rarr;</button>
+                </div>
+              </div>
+
+              <div class="insight-item glowing-border">
+                <div class="insight-icon info">🔮</div>
+                <div class="insight-content">
+                  <h4>Seasonal Demand Spike</h4>
+                  <p>Q4 expected traffic surge will require scaling compute nodes from 64 to 96 by Nov 15.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: GEOSPATIAL TRAFFIC -->
+      <section class="tab-panel" id="panel-geospatial">
+        <div class="panel-card">
+          <div class="card-header">
+            <div class="card-header-left">
+              <h3 class="card-title">Global Data Nodes & Traffic Ingress</h3>
+              <span class="card-subtitle">Real-time regional telemetry & server hub latency map</span>
+            </div>
+          </div>
+
+          <div class="geo-layout">
+            <!-- Interactive Geo Grid Map View -->
+            <div class="geo-map-container" id="geoMapContainer">
+              <div class="world-map-grid">
+                <!-- Map Node Markers -->
+                <div class="map-node node-us-east" style="top: 35%; left: 24%;" data-region="US-East (N. Virginia)">
+                  <span class="node-pulse"></span>
+                  <div class="node-tooltip">
+                    <strong>US-East (Virginia)</strong><br>
+                    Reqs: 18.4K/s | Ping: 8ms
+                  </div>
+                </div>
+
+                <div class="map-node node-us-west" style="top: 38%; left: 14%;" data-region="US-West (Oregon)">
+                  <span class="node-pulse"></span>
+                  <div class="node-tooltip">
+                    <strong>US-West (Oregon)</strong><br>
+                    Reqs: 12.1K/s | Ping: 12ms
+                  </div>
+                </div>
+
+                <div class="map-node node-eu-west" style="top: 30%; left: 48%;" data-region="EU-Central (Frankfurt)">
+                  <span class="node-pulse"></span>
+                  <div class="node-tooltip">
+                    <strong>EU-Central (Frankfurt)</strong><br>
+                    Reqs: 15.6K/s | Ping: 16ms
+                  </div>
+                </div>
+
+                <div class="map-node node-apac-tokyo" style="top: 42%; left: 82%;" data-region="APAC (Tokyo)">
+                  <span class="node-pulse"></span>
+                  <div class="node-tooltip">
+                    <strong>APAC (Tokyo)</strong><br>
+                    Reqs: 9.8K/s | Ping: 45ms
+                  </div>
+                </div>
+
+                <div class="map-node node-sa-east" style="top: 70%; left: 35%;" data-region="SA-East (São Paulo)">
+                  <span class="node-pulse"></span>
+                  <div class="node-tooltip">
+                    <strong>SA-East (São Paulo)</strong><br>
+                    Reqs: 4.2K/s | Ping: 68ms
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Regional Breakdown Table -->
+            <div class="geo-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Region Hub</th>
+                    <th>Status</th>
+                    <th>Traffic Share</th>
+                    <th>Latency</th>
+                    <th>Uptime</th>
+                  </tr>
+                </thead>
+                <tbody id="geoTableBody">
+                  <!-- JS Dynamic Rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: SQL QUERY STUDIO -->
+      <section class="tab-panel" id="panel-sql-lab">
+        <div class="panel-card sql-editor-card">
+          <div class="card-header">
+            <div class="card-header-left">
+              <h3 class="card-title">Live SQL Analytics Studio</h3>
+              <span class="card-subtitle">Execute distributed SQL queries across BigQuery / Snowflake / ClickHouse tables</span>
+            </div>
+            <div class="card-header-actions">
+              <select id="presetQuerySelect" class="custom-select">
+                <option value="q1">Query 1: High-Value Customer Retention & ARR</option>
+                <option value="q2">Query 2: Top API Endpoints by Latency & Error Rates</option>
+                <option value="q3">Query 3: Regional Ingestion Anomaly Scanner</option>
+              </select>
+              <button class="primary-btn" id="runQueryBtn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Execute SQL (⌘Enter)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Code Editor Area -->
+          <div class="code-editor-container">
+            <textarea id="sqlCodeInput" spellcheck="false">SELECT 
+  c.customer_id,
+  c.company_name,
+  c.tier,
+  COUNT(t.transaction_id) AS monthly_tx_count,
+  ROUND(SUM(t.amount_usd), 2) AS total_revenue_usd,
+  AVG(t.execution_latency_ms) AS avg_latency_ms
+FROM telemetry_db.active_customers c
+JOIN telemetry_db.transactions_stream t ON c.customer_id = t.customer_id
+WHERE t.timestamp >= NOW() - INTERVAL '30 days'
+GROUP BY c.customer_id, c.company_name, c.tier
+HAVING SUM(t.amount_usd) > 25000
+ORDER BY total_revenue_usd DESC
+LIMIT 50;</textarea>
+          </div>
+
+          <!-- Query Execution Metadata & Results Table -->
+          <div class="query-results-area">
+            <div class="results-header">
+              <div class="results-info">
+                <span class="badge badge-accent" id="queryStatusBadge">Status: Executed in 12.4ms</span>
+                <span class="results-count" id="queryRowsCount">Showing 10 of 480 rows</span>
+              </div>
+              <div class="results-actions">
+                <input type="text" id="tableFilterInput" class="table-search-input" placeholder="Filter result rows...">
+                <button class="secondary-btn" id="exportCsvBtn">Export CSV</button>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table" id="sqlResultsTable">
+                <thead id="sqlTableHead">
+                  <!-- Dynamic Headers -->
+                </thead>
+                <tbody id="sqlTableBody">
+                  <!-- Dynamic Rows -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 5: ALERTS & TELEMETRY -->
+      <section class="tab-panel" id="panel-alerts">
+        <div class="panel-card">
+          <div class="card-header">
+            <div class="card-header-left">
+              <h3 class="card-title">Realtime Telemetry & Anomaly Alerts</h3>
+              <span class="card-subtitle">Automated alert monitor powered by statistical threshold detection</span>
+            </div>
+            <div class="card-header-actions">
+              <button class="secondary-btn" id="clearAlertsBtn">Acknowledge All</button>
+            </div>
+          </div>
+
+          <div class="alerts-feed-list" id="alertsFeedList">
+            <!-- Dynamic Alert Feed -->
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Notification Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Main JavaScript File -->
+  <script src="app.js"></script>
+</body>
+</html>
